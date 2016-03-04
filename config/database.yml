@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: chats_development
+  username: darelvc
+  password: DKvs43gh4
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  database: chats_test
+  username: darelvc
+  password: DKvs43gh4
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  database: chats_production
+  username: chats
+  password: <%= ENV['CHATS_DATABASE_PASSWORD'] %>
