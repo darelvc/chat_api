@@ -1,14 +1,14 @@
 class Api::MessagesController < ApplicationController
+  skip_before_action :authenticate, only: [:index, :show]
 
-skip_before_action :authenticate, only: [:index, :show]
+  private
 
-private
+  def parent
+    @chat ||= Chat.find params[:chat_id]
+  end
 
   def build_resource
-    # @chat = @current_user.chats
-    # @message = @chat.messages.build resource_params
-
-    @message = Message.create resource_params
+    @message = parent.messages.build resource_params
   end
 
   def resource
@@ -16,11 +16,10 @@ private
   end
 
   def collection
-   @messages ||= Message.find params[:chat_id]
+    @messages ||= parent.messages.all
   end
 
   def resource_params
     params.require(:message).permit(:body, :chat_id)
   end
-
 end
