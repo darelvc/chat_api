@@ -1,5 +1,5 @@
 class Api::ChatsController < ApplicationController
-  #skip_before_action :authenticate
+  skip_before_action :authenticate
 
   private
 
@@ -17,12 +17,15 @@ class Api::ChatsController < ApplicationController
   end
 
   def resource
-    if parent.users.ids.include?(1)
-      #@chat = parent
-      p parent.users.ids
-    else
-      flash[:error] = "You must been invited to this chat room!"
-    end
+    @chat ||= Chat.find params[:id]
+
+
+    # if parent.users.ids.include?(1)
+    #   #@chat = parent
+    #   p parent.users.ids
+    # else
+    #   flash[:error] = "You must been invited to this chat room!"
+    # end
   end
 
   def resource_params
