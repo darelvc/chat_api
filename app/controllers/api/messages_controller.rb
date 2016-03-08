@@ -7,19 +7,27 @@ class Api::MessagesController < ApplicationController
     @chat ||= Chat.find params[:chat_id]
   end
 
+  def user
+    @user ||= User.find_by_id(current_user.id)
+  end
+
   def build_resource
-    @message = parent.messages.build resource_params
+    @message = Message.new resource_params
+    @message.user_id = user.id
+    @message.chat_id = parent.id
   end
 
   def resource
-    @message
+    #@message
+    @message = parent.messages.find(params[:id]).decorate
+    #binding.pry
   end
 
   def collection
-    @messages ||= parent.messages.all
+    @messages ||= parent.messages.all.decorate
   end
 
   def resource_params
-    params.require(:message).permit(:body, :chat_id)
+    params.require(:message).permit(:body, :chat_id, :user_id)
   end
 end

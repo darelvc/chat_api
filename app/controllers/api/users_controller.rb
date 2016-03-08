@@ -9,7 +9,8 @@ private
   end
 
   def resource
-    @user
+    @user = User.find(params[:id]).decorate
+    #@user.messages.count
   end
 
   def collection

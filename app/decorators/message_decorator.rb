@@ -3,7 +3,8 @@ class MessageDecorator < Draper::Decorator
 
   def as_json *args
     {
-      body: body
+      body: body,
+      user_id: user_id
     }
   end
 end
