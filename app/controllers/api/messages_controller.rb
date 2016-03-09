@@ -1,8 +1,7 @@
-class Api::MessagesController < ApplicationController
+class Api::MessagesController < Api::BaseController
   skip_before_action :authenticate, only: [:index, :show]
 
   private
-
   def parent
     @chat ||= Chat.find params[:chat_id]
   end
@@ -19,7 +18,7 @@ class Api::MessagesController < ApplicationController
 
   def resource
     #@message
-    @message = parent.messages.find(params[:id]).decorate
+    @message ||= parent.messages.find(params[:id]).decorate
     #binding.pry
   end
 

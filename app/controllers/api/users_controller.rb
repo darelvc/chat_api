@@ -1,16 +1,14 @@
-class Api::UsersController < ApplicationController
+class Api::UsersController < Api::BaseController
+  skip_before_action :authenticate
 
-skip_before_action :authenticate
-
-private
-
+  private
   def build_resource
     @user = User.new resource_params
   end
 
   def resource
-    @user = User.find(params[:id]).decorate
-    #@user.messages.count
+    @user ||= User.find(params[:id]).decorate
+    #@user
   end
 
   def collection
@@ -18,7 +16,6 @@ private
   end
 
   def resource_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:id, :name, :email, :password, :password_confirmation)
   end
-
 end

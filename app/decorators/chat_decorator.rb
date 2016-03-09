@@ -1,14 +1,15 @@
 class ChatDecorator < Draper::Decorator
-  #delegate_all
-  delegate :name, :description
+  delegate_all
 
-  # Define presentation-specific methods here. Helpers are accessed through
-  # `helpers` (aka `h`). You can override attributes, for example:
-  #
-  #   def created_at
-  #     helpers.content_tag :span, class: 'time' do
-  #       object.created_at.strftime("%a %m/%d/%y")
-  #     end
-  #   end
+  decorates_association :users
 
+  def as_json params = {}
+    {
+      id: id,
+      name: name,
+      description: description
+    }.tap do |hash|
+      hash[:users] = users unless params[:short]
+    end
+  end
 end

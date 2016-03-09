@@ -5,22 +5,22 @@ default: &default
 
 development:
   <<: *default
-  database: dba
-  username: kopilka_rec
-  password: dkvs43gh4
+  database: chats_development
+  username: darelvc
+  password: DKvs43gh4
   host: localhost
   port: 5432
 
 test:
   <<: *default
-  database: dba_test
-  username: kopilka_rec
-  password: dkvs43gh4
+  database: chats_test
+  username: darelvc
+  password: DKvs43gh4
   host: localhost
   port: 5432
 
 production:
   <<: *default
-  database: dba_prod
-  username: kopilka_rec
+  database: chats_production
+  username: chats
   password: <%= ENV['CHATS_DATABASE_PASSWORD'] %>

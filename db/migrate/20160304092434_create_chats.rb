@@ -3,7 +3,6 @@ class CreateChats < ActiveRecord::Migration
     create_table :chats do |t|
       t.string :name
       t.text :description
-      t.boolean :private, default: false
 
       t.timestamps null: false
     end

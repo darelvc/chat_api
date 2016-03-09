@@ -5,6 +5,8 @@ gem 'pg'
 gem 'draper'
 gem 'bcrypt'
 gem 'tzinfo-data'
+gem 'rake', '10.5.0'
+gem 'cancancan'
 
 group :development, :test do
   gem 'rspec-rails'

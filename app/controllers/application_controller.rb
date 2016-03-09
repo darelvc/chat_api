@@ -21,29 +21,11 @@ class ApplicationController < ActionController::Base
     render :errors, status: :unprocessable_entity
   end
 
-  def create
-    build_resource
-
-    resource.save!
-  end
-
-  def update
-    resource.update! resource_params
-  end
-
-  def destroy
-    resource.destroy!
-
-    head :ok
+  rescue_from CanCan::AccessDenied do |exception|
+     head :forbidden
   end
 
   private
-  def authenticate
-    authenticate_or_request_with_http_token do |token, options|
-      @current_user = User.joins(:auth_token).find_by(auth_tokens: { value: token })
-    end
-  end
-
   def json_request?
     request.format.json?
   end
