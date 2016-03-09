@@ -12,11 +12,8 @@ development:
   port: 5432
 
 test:
-  <<: *default
-  database: chats_test
-  username: darelvc
-  password: DKvs43gh4
-  host: localhost
+  adapter: sqlite3
+  database: db/chats_test.sqlite3
   port: 5432
 
 production:
