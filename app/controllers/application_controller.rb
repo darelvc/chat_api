@@ -7,10 +7,6 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token, if: :json_request?
 
-  before_action :authenticate
-
-  attr_reader :current_user
-
   rescue_from ActiveRecord::RecordNotFound do |exception|
     @exception = exception
 

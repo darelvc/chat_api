@@ -5,7 +5,7 @@ class Ability
     user ||= User.new
 
     can :manage, Chat do |chat|
-        chat.user_ids.include?(user.id)
+      chat.user_ids.include?(user.id)
     end
     # Define abilities for the passed in user here. For example:
     #

@@ -7,7 +7,7 @@ class Api::ChatsController < Api::BaseController
 
   private
   def build_resource
-    @chat = Chat.new resource_params
+    @chat = Chat.build current_user, resource_params
   end
 
   def collection
@@ -20,8 +20,6 @@ class Api::ChatsController < Api::BaseController
   end
 
   def resource_params
-    params.require(:chat).permit(:id, :name, :description, user_ids: []).tap do |hash|
-      hash[:user_ids] = hash[:user_ids].push(current_user.id)
-    end
+    params.require(:chat).permit(:id, :name, :description, user_ids: [])
   end
 end

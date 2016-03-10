@@ -1,5 +1,5 @@
 class Api::UsersController < Api::BaseController
-  skip_before_action :authenticate
+  skip_before_action :authenticate, only: :create
 
   private
   def build_resource
@@ -7,8 +7,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def resource
-    @user ||= User.find(params[:id]).decorate
-    #@user
+    @user ||= User.find(params[:id])
   end
 
   def collection

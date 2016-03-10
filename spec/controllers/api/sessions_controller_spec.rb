@@ -22,4 +22,20 @@ describe Api::SessionsController do
 
     it { should render_template :create }
   end
+
+  describe '#destroy.json' do
+    let(:user) { stub_model User }
+
+    let(:session) { double }
+
+    before { sign_in user }
+
+    before { expect(Session).to receive(:new).with(user: user).and_return session }
+
+    before { expect(session).to receive(:destroy!) }
+
+    before { delete :destroy, format: :json }
+
+    it { should respond_with :ok }
+  end
 end
