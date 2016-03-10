@@ -32,5 +32,12 @@ describe Api::ChatsController do
 
     it { should render_template :show }
   end
+
+  describe '#create.json' do
+    let(:params) do
+      { name: 'Test chat', description: 'Test this perfect chat' }
+    end
+
+  end
 end
 

@@ -62,6 +62,23 @@ describe Api::MessagesController do
   end
 
   describe '#resource' do
+    before { subject.params = { chat_id: '31', id: '49' } }
 
+    before do
+      #
+      # Chat.find('31').messages.find('49') => message
+      #
+      expect(Chat).to receive(:find).with('31') do
+        double.tap do |a|
+          expect(a).to receive(:messages) do
+            double.tap do |b|
+              expect(b).to receive(:find).with('49').and_return message
+            end
+          end
+        end
+      end
+    end
+
+    its(:resource) { should eq message }
   end
 end
