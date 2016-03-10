@@ -13,6 +13,12 @@ describe Api::MessagesController do
 
   before { sign_in current_user }
 
+  let(:chat) { double }
+
+  let(:messages) { double }
+
+  let(:message) { double }
+
   describe '#index.json' do
     before { get :index, chat_id: 1, format: :json }
 
@@ -20,8 +26,6 @@ describe Api::MessagesController do
   end
 
   describe '#show.json' do
-    let(:message) { double }
-
     before { subject.instance_variable_set :@message, message }
 
     before { get :show, chat_id: 1, id: 1, format: :json }
@@ -34,12 +38,6 @@ describe Api::MessagesController do
       { body: 'Example text message', user: current_user }
     end
 
-    let(:message) { double }
-
-    let(:chat) { double }
-
-    let(:messages) { double }
-
     before { expect(Chat).to receive(:find).with('1').and_return(chat) }
 
     before { expect(chat).to receive(:messages).and_return messages }
@@ -51,5 +49,19 @@ describe Api::MessagesController do
     before { post :create, chat_id: 1, message: params, format: :json }
 
     it { should render_template :create }
+  end
+
+  describe '#collection' do
+    before { subject.params = { chat_id: '1' } }
+
+    before { expect(Chat).to receive(:find).with('1').and_return(chat) }
+
+    before { expect(chat).to receive(:messages).and_return messages }
+
+    its(:collection) { should eq messages }
+  end
+
+  describe '#resource' do
+
   end
 end

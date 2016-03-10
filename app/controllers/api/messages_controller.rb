@@ -1,7 +1,7 @@
 class Api::MessagesController < Api::BaseController
-  load_and_authorize_resource :chat
+  # load_and_authorize_resource :chat
 
-  load_and_authorize_resource :message, through: :chat
+  # load_and_authorize_resource :message, through: :chat
 
   private
   def build_resource
