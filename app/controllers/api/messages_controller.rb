@@ -1,10 +1,9 @@
 class Api::MessagesController < Api::BaseController
+  load_and_authorize_resource :chat
+
+  load_and_authorize_resource :message, through: :chat
 
   private
-  def parent
-    @chat ||= Chat.find params[:chat_id]
-  end
-
   def build_resource
     @message = collection.new resource_params
   end
@@ -16,6 +15,10 @@ class Api::MessagesController < Api::BaseController
 
   def collection
     @messages ||= parent.messages
+  end
+
+  def parent
+    @chat ||= Chat.find params[:chat_id]
   end
 
   def resource_params

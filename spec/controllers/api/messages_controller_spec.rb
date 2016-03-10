@@ -9,7 +9,9 @@ describe Api::MessagesController do
 
   it { should route(:post, '/api/chats/1/messages').to(action: :create, chat_id: 1) }
 
-  before { sign_in }
+  let(:current_user) { double }
+
+  before { sign_in current_user }
 
   describe '#index.json' do
     before { get :index, chat_id: 1, format: :json }
@@ -29,14 +31,22 @@ describe Api::MessagesController do
 
   describe '#create.json' do
     let(:params) do
-      { body: "Example text message" }
+      { body: 'Example text message', user: current_user }
     end
 
     let(:message) { double }
 
-    before { expect(Message).to receive(:new).with(params).and_return message }
+    let(:chat) { double }
 
-    before { expect(message).to receive(:save!) }
+    let(:messages) { double }
+
+    before { expect(Chat).to receive(:find).with('1').and_return(chat) }
+
+    before { expect(chat).to receive(:messages).and_return messages }
+
+    before { expect(messages).to receive(:new).with(params).and_return message }
+
+    before { expect(message).to receive(:save!).and_return true }
 
     before { post :create, chat_id: 1, message: params, format: :json }
 
