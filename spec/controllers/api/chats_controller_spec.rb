@@ -40,17 +40,60 @@ describe Api::ChatsController do
       { name: 'Test chat', description: 'Test this perfect chat' }
     end
 
+    let(:chats) { double }
+
     let(:chat) { double }
 
-    before { expect(subject.current_ability).to receive(:can?).with(:create, Сhat).and_return(true) }
+    before { expect(subject.current_ability).to receive(:can?).with(:create, Chat).and_return(true) }
 
-    before { expect(Chat).to receive(:build).with(params).and_return(chat) }
+    before do
+      #
+      # current_user.chats.build params => chat
+      #
+      expect(current_user).to receive(:chats) do
+        double.tap do |a|
+          expect(a).to receive(:build).with(params).and_return(chat)
+        end
+      end
+    end
 
     before { expect(chat).to receive(:save!) }
 
     before { post :create, id: 1, chat: params, format: :json }
 
     it { should render_template :create }
+  end
+
+  describe '#update.json' do
+    let(:params) do
+      { name: 'Test chat edited', description: 'Edited test this perfect chat' }
+    end
+
+    let(:chat) { double }
+
+    before { subject.instance_variable_set :@chat, chat }
+
+    before { expect(subject.current_ability).to receive(:can?).with(:update, chat).and_return(true) }
+
+    before { expect(chat).to receive(:update!).with(params) }
+
+    before { post :update, id: 53, chat: params, format: :json }
+
+    it { should render_template :update }
+  end
+
+  describe '#collection' do
+    before { expect(current_user).to receive(:chats).and_return(:chats) }
+
+    its(:collection) { should eq :chats }
+  end
+
+  describe '#resource' do
+    before { expect(subject).to receive(:params).and_return(id: '1') }
+
+    before { expect(Chat).to receive(:find).with('1').and_return(:chat) }
+
+    its(:resource) { should eq :chat }
   end
 end
 

@@ -4,12 +4,8 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    # can :manage, Chat do |chat|
-    #   chat.user_ids.include?(user.id)
-    # end
-
     can :manage, Chat do |chat|
-      chat.users.find_by(id: user.id)
+      chat.user_ids.include? user.id
     end
 
     can :manage, Message do |message|
