@@ -1,11 +1,11 @@
 class Api::ChatsController < Api::BaseController
   load_and_authorize_resource
 
-  #skip_load_resource only: :create
+  skip_load_and_authorize_resource only: :create
 
   private
   def build_resource
-    @chat = current_user.chats.build resource_params
+    @chat = Chat.build current_user, resource_params
   end
 
   def collection
@@ -17,6 +17,6 @@ class Api::ChatsController < Api::BaseController
   end
 
   def resource_params
-    params.require(:chat).permit(:id, :name, :description, user_ids: [])
+    params.require(:chat).permit(:name, :description, user_ids: [])
   end
 end

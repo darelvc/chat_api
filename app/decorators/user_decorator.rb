@@ -4,7 +4,8 @@ class UserDecorator < Draper::Decorator
   def as_json *args
     {
       name: name,
-      email: email
+      email: email,
+      messages_count: messages_count
     }
   end
 end

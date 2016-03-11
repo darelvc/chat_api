@@ -17,5 +17,4 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'
-  gem 'sqlite3'
 end

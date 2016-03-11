@@ -40,22 +40,9 @@ describe Api::ChatsController do
       { name: 'Test chat', description: 'Test this perfect chat' }
     end
 
-    let(:chats) { double }
-
     let(:chat) { double }
 
-    before { expect(subject.current_ability).to receive(:can?).with(:create, Chat).and_return(true) }
-
-    before do
-      #
-      # current_user.chats.build params => chat
-      #
-      expect(current_user).to receive(:chats) do
-        double.tap do |a|
-          expect(a).to receive(:build).with(params).and_return(chat)
-        end
-      end
-    end
+    before { expect(Chat).to receive(:build).with(current_user, params).and_return(chat) }
 
     before { expect(chat).to receive(:save!) }
 
@@ -89,9 +76,9 @@ describe Api::ChatsController do
   end
 
   describe '#resource' do
-    before { expect(subject).to receive(:params).and_return(id: '1') }
+    before { expect(subject).to receive(:params).and_return(id: 1) }
 
-    before { expect(Chat).to receive(:find).with('1').and_return(:chat) }
+    before { expect(Chat).to receive(:find).with(1).and_return(:chat) }
 
     its(:resource) { should eq :chat }
   end

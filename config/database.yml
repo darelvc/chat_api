@@ -11,9 +11,9 @@ development:
   host: localhost
   port: 5432
 
-test:
-  adapter: sqlite3
-  database: db/chats_test.sqlite3
+test: 
+  <<: *default
+  database: chats_test
   port: 5432
 
 production:

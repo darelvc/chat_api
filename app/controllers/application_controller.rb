@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
      head :forbidden
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do
+    render text: 'Token expired/invalid', status: 498
+  end
+
   private
   def json_request?
     request.format.json?
