@@ -5,8 +5,6 @@ describe Api::MessagesController do
 
   it { should route(:get, '/api/chats/1/messages').to(action: :index, chat_id: 1) }
 
-  it { should route(:get, '/api/chats/1/messages/1').to(action: :show, chat_id: 1, id: 1) }
-
   it { should route(:post, '/api/chats/1/messages').to(action: :create, chat_id: 1) }
 
   let(:current_user) { double }
@@ -20,17 +18,17 @@ describe Api::MessagesController do
   let(:message) { double }
 
   describe '#index.json' do
+    before { expect(Chat).to receive(:find).with('1').and_return(chat) }
+
+    before { expect(subject.current_ability).to receive(:can?).with(:show, chat).and_return(true) }
+
+    before { expect(subject.current_ability).to receive(:can?).with(:index, chat => Message).and_return(true) }
+
+    before { expect(chat).to receive(:messages).and_return(messages) }
+
     before { get :index, chat_id: 1, format: :json }
 
     it { should render_template :index }
-  end
-
-  describe '#show.json' do
-    before { subject.instance_variable_set :@message, message }
-
-    before { get :show, chat_id: 1, id: 1, format: :json }
-
-    it { should render_template :show }
   end
 
   describe '#create.json' do
@@ -40,7 +38,11 @@ describe Api::MessagesController do
 
     before { expect(Chat).to receive(:find).with('1').and_return(chat) }
 
-    before { expect(chat).to receive(:messages).and_return messages }
+    before { expect(subject.current_ability).to receive(:can?).with(:show, chat).and_return(true) }
+
+    before { expect(subject.current_ability).to receive(:can?).with(:create, message).and_return(true) }
+
+    before { expect(chat).to receive(:messages).and_return(messages) }
 
     before { expect(messages).to receive(:new).with(params).and_return message }
 
@@ -52,33 +54,31 @@ describe Api::MessagesController do
   end
 
   describe '#collection' do
-    before { subject.params = { chat_id: '1' } }
-
-    before { expect(Chat).to receive(:find).with('1').and_return(chat) }
+    before { expect(subject).to receive(:parent).and_return(chat) }
 
     before { expect(chat).to receive(:messages).and_return messages }
 
     its(:collection) { should eq messages }
   end
 
-  describe '#resource' do
-    before { subject.params = { chat_id: '31', id: '49' } }
+  # describe '#resource' do
+  #   before { subject.params = { chat_id: '31', id: '49' } }
 
-    before do
-      #
-      # Chat.find('31').messages.find('49') => message
-      #
-      expect(Chat).to receive(:find).with('31') do
-        double.tap do |a|
-          expect(a).to receive(:messages) do
-            double.tap do |b|
-              expect(b).to receive(:find).with('49').and_return message
-            end
-          end
-        end
-      end
-    end
+  #   before do
+  #     #
+  #     # Chat.find('31').messages.find('49') => message
+  #     #
+  #     expect(Chat).to receive(:find).with('31') do
+  #       double.tap do |a|
+  #         expect(a).to receive(:messages) do
+  #           double.tap do |b|
+  #             expect(b).to receive(:find).with('49').and_return message
+  #           end
+  #         end
+  #       end
+  #     end
+  #   end
 
-    its(:resource) { should eq message }
-  end
+  #   its(:resource) { should eq message }
+  # end
 end

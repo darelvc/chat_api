@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-     head :forbidden
+     render json: {"message" => "unauthorized"}.to_json, :status => 403
   end
 
   rescue_from ActionController::InvalidAuthenticityToken do
