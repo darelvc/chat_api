@@ -3,15 +3,13 @@ class Api::MessagesController < Api::BaseController
 
   load_and_authorize_resource :message, through: :chat
 
-  #skip_load_resource :message, through: :chat, only: :create
-
   private
   def build_resource
-    #@message = collection.new resource_params
+    # CanCanCan => @message = collection.new resource_params
   end
 
   def resource
-    @message# ||= collection.find(params[:id])
+    @message
   end
 
   def collection
@@ -19,7 +17,7 @@ class Api::MessagesController < Api::BaseController
   end
 
   def parent
-    @chat #||= Chat.find params[:chat_id]
+    @chat
   end
 
   def resource_params

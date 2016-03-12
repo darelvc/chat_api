@@ -61,6 +61,18 @@ describe Api::MessagesController do
     its(:collection) { should eq messages }
   end
 
+  describe '#parent' do
+    before { subject.instance_variable_set :@chat, :chat }
+
+    its(:parent) { should eq :chat }
+  end
+
+  describe '#resource' do
+    before { subject.instance_variable_set :@message, :message }
+
+    its(:resource) { should eq :message }
+  end
+
   # describe '#resource' do
   #   before { subject.params = { chat_id: '31', id: '49' } }
 
