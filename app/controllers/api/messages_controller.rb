@@ -5,7 +5,6 @@ class Api::MessagesController < Api::BaseController
 
   private
   def build_resource
-    # CanCanCan => @message = collection.new resource_params
   end
 
   def resource

@@ -6,16 +6,16 @@ RSpec.describe Api::BaseController, type: :controller do
 
     before do
       #
-      # User.joins(:auth_token).find_by(auth_tokens: { value: 'token' })
+      # User.joins(:auth_token).find_by(auth_tokens: { value: 'token' }) -> :user
       #
       expect(User).to receive(:joins).with(:auth_token) do
         double.tap do |a|
-          expect(a).to receive(:find_by).with(auth_tokens: { value: 'token' })
+          expect(a).to receive(:find_by).with(auth_tokens: { value: 'token' }).and_return(:user)
         end
       end
     end
 
-    it { expect { subject.send :authenticate }.to_not raise_error }
+    its(:authenticate) { should eq :user }
   end
 end
 

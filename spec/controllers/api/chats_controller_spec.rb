@@ -9,11 +9,9 @@ describe Api::ChatsController do
 
   it { should route(:post, '/api/chats').to(action: :create) }
 
-  it { should route(:put, '/api/chats/1').to(action: :update, id: 1) }
+  it { should route(:patch, '/api/chats/1').to(action: :update, id: 1) }
 
-  let(:current_user) { double }
-
-  before { sign_in current_user }
+  before { sign_in }
 
   describe '#index.json' do
     before { expect(subject.current_ability).to receive(:can?).with(:index, Chat).and_return(true) }
@@ -42,7 +40,7 @@ describe Api::ChatsController do
 
     let(:chat) { double }
 
-    before { expect(Chat).to receive(:build).with(current_user, params).and_return(chat) }
+    before { expect(Chat).to receive(:build).with(subject.current_user, params).and_return(chat) }
 
     before { expect(chat).to receive(:save!) }
 
@@ -70,7 +68,7 @@ describe Api::ChatsController do
   end
 
   describe '#collection' do
-    before { expect(current_user).to receive(:chats).and_return(:chats) }
+    before { expect(subject.current_user).to receive(:chats).and_return(:chats) }
 
     its(:collection) { should eq :chats }
   end

@@ -7,9 +7,7 @@ describe Api::MessagesController do
 
   it { should route(:post, '/api/chats/1/messages').to(action: :create, chat_id: 1) }
 
-  let(:current_user) { double }
-
-  before { sign_in current_user }
+  before { sign_in }
 
   let(:chat) { double }
 
@@ -33,7 +31,7 @@ describe Api::MessagesController do
 
   describe '#create.json' do
     let(:params) do
-      { body: 'Example text message', user: current_user }
+      { body: 'Example text message', user: subject.current_user }
     end
 
     before { expect(Chat).to receive(:find).with('1').and_return(chat) }
@@ -72,25 +70,4 @@ describe Api::MessagesController do
 
     its(:resource) { should eq :message }
   end
-
-  # describe '#resource' do
-  #   before { subject.params = { chat_id: '31', id: '49' } }
-
-  #   before do
-  #     #
-  #     # Chat.find('31').messages.find('49') => message
-  #     #
-  #     expect(Chat).to receive(:find).with('31') do
-  #       double.tap do |a|
-  #         expect(a).to receive(:messages) do
-  #           double.tap do |b|
-  #             expect(b).to receive(:find).with('49').and_return message
-  #           end
-  #         end
-  #       end
-  #     end
-  #   end
-
-  #   its(:resource) { should eq message }
-  # end
 end
