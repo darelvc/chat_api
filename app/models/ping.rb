@@ -1,0 +1,2 @@
+class Ping < Post
+end

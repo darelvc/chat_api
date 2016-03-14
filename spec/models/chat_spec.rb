@@ -5,6 +5,10 @@ RSpec.describe Chat, type: :model do
 
   it { should have_many :messages }
 
+  it { should have_many :posts }
+
+  it { should have_many :pings }
+
   context '#validate_users_count' do
     let(:chat) { stub_model Chat }
 

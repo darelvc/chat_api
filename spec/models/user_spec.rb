@@ -5,6 +5,10 @@ RSpec.describe User, type: :model do
 
   it { should have_many :messages }
 
+  it { should have_many :posts }
+
+  it { should have_many :pings }
+
   it { should have_and_belong_to_many :chats }
 
   it { should validate_presence_of :name }

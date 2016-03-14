@@ -11,5 +11,9 @@ class Ability
     can :manage, Message do |message|
       message.chat.users.find_by(id: user.id)
     end
+
+    can :manage, Ping do |message|
+      message.chat.users.find_by(id: user.id)
+    end
   end
 end

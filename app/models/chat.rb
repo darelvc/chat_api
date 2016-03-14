@@ -1,7 +1,11 @@
 class Chat < ActiveRecord::Base
   has_and_belongs_to_many :users
 
+  has_many :posts
+
   has_many :messages
+
+  has_many :pings
 
   validates :users, length: { minimum: 2, message: 'Cannot be 1 user' }
 

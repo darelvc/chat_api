@@ -5,7 +5,7 @@ class UserDecorator < Draper::Decorator
     {
       name: name,
       email: email,
-      messages_count: messages_count
+      posts_count: posts_count
     }
   end
 end

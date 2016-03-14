@@ -1,4 +1,4 @@
-class MessageDecorator < Draper::Decorator
+class PingDecorator < Draper::Decorator
   delegate_all
 
   def as_json *args
