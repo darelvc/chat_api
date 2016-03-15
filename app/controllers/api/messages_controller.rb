@@ -4,7 +4,8 @@ class Api::MessagesController < Api::BaseController
   load_and_authorize_resource :message, through: :chat
 
   private
-  def build_resource; end
+  def build_resource
+  end
 
   def collection
     @messages ||= parent.messages

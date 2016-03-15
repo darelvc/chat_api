@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
   belongs_to :chat
 
-  belongs_to :user, counter_cache: true
+  has_many :votes, as: :votable, dependent: :destroy
 end

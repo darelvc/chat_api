@@ -5,11 +5,9 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :chats
 
-  has_many :posts
+  has_many :messages, dependent: :destroy
 
-  has_many :messages
-
-  has_many :pings
+  has_many :pings, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

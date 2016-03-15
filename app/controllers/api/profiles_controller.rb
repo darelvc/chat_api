@@ -1,6 +1,6 @@
 class Api::ProfilesController < Api::BaseController
-  private
 
+  private
   def resource
     @profile ||= current_user
   end
