@@ -12,9 +12,9 @@ describe Api::VotesController do
   describe '#create.json' do
     let(:votes) { double }
 
-    let(:message) { double }
+    let(:message) { stub_model Message, id: 45, type: 'Message' }
 
-    let(:ping) { double }
+    let(:ping) { stub_model Ping, id: 53, type: 'Ping' }
 
     let(:vote) { double }
 
@@ -23,36 +23,32 @@ describe Api::VotesController do
     end
 
     context do
-      before { expect(Message).to receive(:find).with('28').and_return(message) }
+      before { expect(Message).to receive(:find).with('45').and_return(message) }
 
-      before { expect(message).to receive(:votes).and_return(votes) }
+      before { expect(Vote).to receive(:find_or_initialize_by).with(votable_id: message.id, votable_type: message.type, user: subject.current_user).and_return(vote) }
 
-      before { expect(votes).to receive(:build).with(params).and_return(vote) }
+      before { expect(vote).to receive(:kind=).with('like').and_return true }
 
       before { expect(vote).to receive(:save!) }
 
-      before { post :create, message_id: 28, vote: params, format: :json }
+      before { post :create, message_id: 45, kind: 'like', format: :json }
 
       it { should render_template :create }
     end
 
     context do
-      before { expect(Ping).to receive(:find).with('51').and_return(ping) }
+      before { expect(Ping).to receive(:find).with('53').and_return(ping) }
 
-      before { expect(ping).to receive(:votes).and_return(votes) }
+      before { expect(Vote).to receive(:find_or_initialize_by).with(votable_id: ping.id, votable_type: ping.type, user: subject.current_user).and_return(vote) }
 
-      before { expect(votes).to receive(:build).with(params).and_return(vote) }
+      before { expect(vote).to receive(:kind=).with('like').and_return true }
 
       before { expect(vote).to receive(:save!) }
 
-      before { post :create, ping_id: 51, vote: params, format: :json }
+      before { post :create, ping_id: 53, kind: 'like', format: :json }
 
       it { should render_template :create }
     end
-  end
-
-  describe '#update.json' do
-
   end
 
   describe '#parent' do

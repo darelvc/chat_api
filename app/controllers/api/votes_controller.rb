@@ -11,7 +11,7 @@ class Api::VotesController < Api::BaseController
   end
 
   def build_resource
-    @vote = Vote.find_or_initialize_by(votable: parent, user: current_user).tap do |vote|
+    @vote = Vote.find_or_initialize_by(votable_id: parent.id, votable_type: parent.type, user: current_user).tap do |vote|
       vote.kind = params[:kind]
     end
   end

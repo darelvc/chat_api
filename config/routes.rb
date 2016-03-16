@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :chats, only: [:index, :show, :create, :update] do
       resources :messages, only: [:index, :create]
 
-      resources :pings, only: [:index, :create]
+      resources :pings, only: [:index, :create, :update]
     end
 
     resources :messages, only: [] do

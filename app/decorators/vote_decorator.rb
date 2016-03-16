@@ -3,6 +3,7 @@ class VoteDecorator < Draper::Decorator
 
   def as_json *args
     {
+      id: id,
       kind: kind
      }
   end
