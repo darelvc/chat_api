@@ -67,9 +67,5 @@ describe Api::VotesController do
 
       it { expect { subject.send :parent }.to_not raise_error }
     end
-
-    context do
-      it { expect { subject.send :parent }.to raise_error(ActiveRecord::RecordNotFound) }
-    end
   end
 end

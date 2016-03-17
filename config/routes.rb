@@ -4,23 +4,21 @@ Rails.application.routes.draw do
       post :vote, to: 'votes#create'
     end
 
-    resources :chats, only: [:index, :show, :create, :update] do
-      resources :messages, only: [:index, :create]
+    resources :chats, only: [:index, :show, :create, :update], shallow: true do
+      resources :messages, only: [:index, :create] do
+        concerns :votable
+      end
 
-      resources :pings, only: [:index, :create, :update]
-    end
-
-    resources :messages, only: [] do
-      concerns :votable
-    end
-
-    resources :pings, only: [] do
-      concerns :votable
+      resources :pings, only: [:index, :create] do
+        concerns :votable
+      end
     end
 
     resources :users, only: [:index, :show, :create]
 
-    resource :profile, only: [:show, :update]
+    resource :profile, only: [:show, :update] do
+      resource :avatar, only: :update
+    end
 
     resource :session, only: [:create, :destroy]
   end

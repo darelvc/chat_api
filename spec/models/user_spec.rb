@@ -20,4 +20,15 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:email).case_insensitive }
 
   it { should allow_value('test@test.com').for(:email) }
+
+  it { should have_attached_file(:avatar) }
+
+  #it { should validate_attachment_presence(:avatar) }
+
+  it do
+   should validate_attachment_content_type(:avatar).
+      allowing('image/png', 'image/jpeg', 'image/jpg').
+      rejecting('image/gif', 'application/pdf')
+  end
+
 end

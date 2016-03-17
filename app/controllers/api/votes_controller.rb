@@ -5,8 +5,6 @@ class Api::VotesController < Api::BaseController
       @message ||= Message.find params[:message_id]
     elsif params[:ping_id].present?
       @ping ||= Ping.find params[:ping_id]
-    else
-      raise ActiveRecord::RecordNotFound
     end
   end
 

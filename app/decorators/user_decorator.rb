@@ -5,7 +5,8 @@ class UserDecorator < Draper::Decorator
     {
       name: name,
       email: email,
-      posts_count: posts_count
+      messages_count: messages_count,
+      avatar: h.image_url(avatar :thumbnail)
     }
   end
 end

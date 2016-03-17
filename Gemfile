@@ -7,6 +7,7 @@ gem 'bcrypt'
 gem 'tzinfo-data'
 gem 'rake'
 gem 'cancancan'
+gem 'paperclip'
 
 group :development, :test do
   gem 'rspec-rails'
