@@ -4,9 +4,19 @@ class PictureDecorator < Draper::Decorator
   def as_json *args
     {
       id: id,
-      avatar: avatar,
+      avatar: avatar.url(:original),
       type: type,
-      user_id: user_id
+      user: get_user
+    }
+  end
+
+  private
+  def get_user
+    {
+      id: model.user.id,
+      name: model.user.name,
+      messages_count: model.user.messages_count,
+      avatar: model.user.avatar.url
     }
   end
 end

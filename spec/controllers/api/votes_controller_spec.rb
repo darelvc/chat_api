@@ -7,6 +7,8 @@ describe Api::VotesController do
 
   it { should route(:post, '/api/pings/1/vote').to(action: :create, ping_id: 1) }
 
+  it { should route(:post, '/api/pictures/1/vote').to(action: :create, picture_id: 1) }
+
   before { sign_in }
 
   describe '#create.json' do
@@ -15,6 +17,8 @@ describe Api::VotesController do
     let(:message) { stub_model Message, id: 45, type: 'Message' }
 
     let(:ping) { stub_model Ping, id: 53, type: 'Ping' }
+
+    let(:picture) { stub_model Picture, id: 55, type: 'Picture' }
 
     let(:vote) { double }
 
@@ -49,6 +53,20 @@ describe Api::VotesController do
 
       it { should render_template :create }
     end
+
+    context do
+      before { expect(Picture).to receive(:find).with('55').and_return(picture) }
+
+      before { expect(Vote).to receive(:find_or_initialize_by).with(votable_id: picture.id, votable_type: picture.type, user: subject.current_user).and_return(vote) }
+
+      before { expect(vote).to receive(:kind=).with('like').and_return true }
+
+      before { expect(vote).to receive(:save!) }
+
+      before { post :create, picture_id: 55, kind: 'like', format: :json }
+
+      it { should render_template :create }
+    end
   end
 
   describe '#parent' do
@@ -64,6 +82,14 @@ describe Api::VotesController do
       before { expect(subject).to receive(:params).and_return(ping_id: 26).at_least(3) }
 
       before { expect(Ping).to receive(:find).with(26) }
+
+      it { expect { subject.send :parent }.to_not raise_error }
+    end
+
+    context do
+      before { expect(subject).to receive(:params).and_return(picture_id: 55).at_least(4) }
+
+      before { expect(Picture).to receive(:find).with(55) }
 
       it { expect { subject.send :parent }.to_not raise_error }
     end

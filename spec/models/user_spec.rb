@@ -7,6 +7,8 @@ RSpec.describe User, type: :model do
 
   it { should have_many :pings }
 
+  it { should have_many :pictures }
+
   it { should have_and_belong_to_many :chats }
 
   it { should validate_presence_of :name }
@@ -23,12 +25,9 @@ RSpec.describe User, type: :model do
 
   it { should have_attached_file(:avatar) }
 
-  #it { should validate_attachment_presence(:avatar) }
-
   it do
    should validate_attachment_content_type(:avatar).
       allowing('image/png', 'image/jpeg', 'image/jpg').
       rejecting('image/gif', 'application/pdf')
   end
-
 end

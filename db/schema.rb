@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160318082907) do
     t.datetime "updated_at",                          null: false
     t.boolean  "admin",               default: false
     t.integer  "posts_count",         default: 0
+    t.integer  "messages_count",      default: 0
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
