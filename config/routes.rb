@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       resources :pings, only: [:index, :create] do
         concerns :votable
       end
+
+      resources :pictures, only: [:index, :create] do
+        concerns :votable
+      end
     end
 
     resources :users, only: [:index, :show, :create]

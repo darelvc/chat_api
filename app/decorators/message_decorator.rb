@@ -9,7 +9,6 @@ class MessageDecorator < Draper::Decorator
       body: body,
       type: type,
       user_id: user_id,
-      avatar: avatar
     }
   end
 end
