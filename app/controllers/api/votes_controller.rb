@@ -5,6 +5,8 @@ class Api::VotesController < Api::BaseController
       @message ||= Message.find params[:message_id]
     elsif params[:ping_id].present?
       @ping ||= Ping.find params[:ping_id]
+    elsif params[:picture_id].present?
+      @picture ||= Picture.find params[:ping_id]
     end
   end
 

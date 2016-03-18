@@ -1,6 +1,8 @@
 class Picture < Post
   validates :user, presence: true
 
+  validates :avatar, presence: true
+
   belongs_to :user
 
   has_many :votes, as: :votable, dependent: :destroy
