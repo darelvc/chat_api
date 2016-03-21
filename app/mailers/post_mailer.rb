@@ -1,11 +1,7 @@
 class PostMailer < ApplicationMailer
-  def new_post chat, user
-    @user = user
+  def new_post post
+  	@post = post
 
-    @users = chat.users.where.not(id: user.id)
-
-    emails = @users.pluck(:email)
-
-    mail to: emails, subject: 'New Post!'
+  	mail to: Recipients.new(post).emails, subject: 'New Message' 
   end
 end

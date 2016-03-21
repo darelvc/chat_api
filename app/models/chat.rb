@@ -13,7 +13,7 @@ class Chat < ActiveRecord::Base
 
   class << self
     def build current_user, params
-      params[:user_ids] = params[:user_ids]&.push(current_user.id)
+      params[:user_ids] = params[:user_ids].push(current_user.id)
 
       Chat.new params
     end

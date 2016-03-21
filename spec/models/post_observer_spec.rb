@@ -8,9 +8,9 @@ RSpec.describe PostObserver, type: :observer do
 
     before do
       #
-      # PostMailer.new_post(post.chat, post.user).deliver_now
+      # PostMailer.new_post(post).deliver_now
       #
-      expect(PostMailer).to receive(:new_post).with(post.chat, post.user) do
+      expect(PostMailer).to receive(:new_post).with(post) do
         double.tap do |a|
           expect(a).to receive(:deliver_now)
         end
