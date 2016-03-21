@@ -1,22 +1,15 @@
 class PictureDecorator < Draper::Decorator
   delegate_all
 
+  decorates_association :user
+
+  decorates_association :chat
+
   def as_json *args
-    {
-      id: id,
-      avatar: avatar.url(:original),
-      type: type,
-      user: get_user
-    }
+    super only: [:id], methods: [:avatar, :user, :chat]
   end
 
-  private
-  def get_user
-    {
-      id: model.user.id,
-      name: model.user.name,
-      messages_count: model.user.messages_count,
-      avatar: model.user.avatar.url
-    }
+  def avatar
+    model.avatar.url :original
   end
 end

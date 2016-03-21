@@ -2,11 +2,10 @@ class UserDecorator < Draper::Decorator
   delegate_all
 
   def as_json *args
-    {
-      name: name,
-      email: email,
-      messages_count: messages_count,
-      avatar: h.image_url(avatar :thumbnail)
-    }
+    super only: [:id, :name, :messages_count, :email], methods: [:avatar]
+  end
+
+  def avatar
+    model.avatar.url :original
   end
 end

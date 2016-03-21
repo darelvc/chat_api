@@ -4,11 +4,6 @@ class MessageDecorator < Draper::Decorator
   decorates_association :user
 
   def as_json *args
-    {
-      id: id,
-      body: body,
-      type: type,
-      user_id: user_id,
-    }
+    super only: [:id, :body, :type, :user_id]
   end
 end

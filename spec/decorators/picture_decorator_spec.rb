@@ -1,32 +1,30 @@
 require 'rails_helper'
 
 describe PictureDecorator do
-  describe '#as_json' do
-    let(:picture) { stub_model Picture, id: 1, user_id: 1, type: 'Picture' }
+  let(:picture) { stub_model Picture, id: 25 }
 
-    subject { picture.decorate.as_json }
+  subject { picture.decorate }
 
-    its([:user_id]) { should eq 1 }
-
-    its([:id]) { should eq 1 }
-
-    its([:type]) { should eq 'Picture' }
-
-    context do
-      let(:url) { double }
-
-      let(:avatar) { double }
-
-      before { expect(picture).to receive(:avatar).and_return(avatar) }
-
-      before { expect(avatar).to receive(:url).with(:original).and_return('http://test.host/thumbnail.jpeg') }
-
-      its([:avatar]) { should eq 'http://test.host/thumbnail.jpeg' }
+  before do
+    #
+    # picture.avatar.url(:original) -> 'http://test.host/original.jpeg'
+    #
+    expect(picture).to receive(:avatar) do
+      double.tap do |a|
+        expect(a).to receive(:url).with(:original).and_return('http://test.host/original.jpeg')
+      end
     end
+  end
 
+  before { expect(subject).to receive(:user).and_return(:user) }
 
+  before { expect(subject).to receive(:chat).and_return(:chat) }
+
+  its('as_json.symbolize_keys') do
+    should eq \
+      id: 25,
+      avatar: 'http://test.host/original.jpeg',
+      user: :user,
+      chat: :chat
   end
 end
-
-
-

@@ -5,31 +5,57 @@ RSpec.describe Ability do
 
   let(:user) { stub_model User }
 
-  let(:another_room) { stub_model(Chat) }
+  context do
+    let(:chat) { stub_model Chat, users: [user] }
 
-  let(:chat) { stub_model Chat, users: [user] }
+    it { should be_able_to :read, stub_model(Chat, users: [user]) }
 
-  let(:ping) { stub_model Ping, chat: chat }
+    it { should be_able_to :update, stub_model(Chat, users: [user]) }
+  end
 
-  let(:picture) { stub_model Picture, chat: chat }
+  context do
+    let(:chat) { stub_model Chat, users: [user] }
 
-  let(:message) { stub_model Message, chat: chat }
+    let(:ping) { stub_model Ping, chat: chat }
 
-  it { should be_able_to :read, stub_model(Chat, users: [user]) }
+    it { should be_able_to :manage, ping }
+  end
 
-  it { should be_able_to :update, stub_model(Chat, users: [user]) }
+  context do
+    let(:chat) { stub_model Chat, users: [user] }
 
-  it { should_not be_able_to :manage, stub_model(Chat) }
+    let(:picture) { stub_model Picture, chat: chat }
 
-  it { should be_able_to :manage, message }
+    it { should be_able_to :manage, picture }
+  end
 
-  it { should be_able_to :manage, ping }
+  context do
+    let(:chat) { stub_model Chat, users: [user] }
 
-  it { should be_able_to :manage, picture }
+    let(:message) { stub_model Message, chat: chat }
 
-  it { should_not be_able_to :manage, stub_model(Picture, chat: another_room) }
+    it { should be_able_to :manage, message }
+  end
 
-  it { should_not be_able_to :manage, stub_model(Message, chat: another_room) }
+  context do
+    it { should_not be_able_to :manage, stub_model(Chat) }
+  end
 
-  it { should_not be_able_to :manage, stub_model(Ping, chat: another_room) }
+  context do
+    let(:another_room) { stub_model(Chat) }
+
+    it { should_not be_able_to :manage, stub_model(Picture, chat: another_room) }
+  end
+
+  context do
+    let(:another_room) { stub_model(Chat) }
+
+    it { should_not be_able_to :manage, stub_model(Message, chat: another_room) }
+  end
+
+  context do
+    let(:another_room) { stub_model(Chat) }
+
+    it { should_not be_able_to :manage, stub_model(Ping, chat: another_room) }
+  end
 end

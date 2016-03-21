@@ -8,6 +8,7 @@ gem 'tzinfo-data'
 gem 'rake'
 gem 'cancancan'
 gem 'paperclip'
+gem 'rails-observers'
 
 group :development, :test do
   gem 'rspec-rails'
