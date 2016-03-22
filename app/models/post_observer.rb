@@ -1,5 +1,5 @@
 class PostObserver < ActiveRecord::Observer
   def after_create post
-    PostMailer.new_post(post).deliver_now
+    PostMailer.email(post).deliver_later
   end
 end

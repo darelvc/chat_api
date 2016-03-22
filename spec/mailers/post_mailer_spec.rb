@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe PostMailer, type: :mailer do
-	describe '#new_post' do
+	describe '#email' do
 		let(:post) { double }
 
 		before do
@@ -13,7 +13,7 @@ RSpec.describe PostMailer, type: :mailer do
 			end
 		end
 
-		subject { PostMailer.new_post post }
+		subject { PostMailer.email post }
 
 		its(:from) { should eq ['from@example.com'] }
 

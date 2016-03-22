@@ -6,18 +6,14 @@ default: &default
 development:
   <<: *default
   database: chats_development
+  username: darelvc
+  password: DKvs43gh4
   host: localhost
   port: 5432
-  database: kopilka_prod
-  username: kopilka_rec
-  password: dkvs43gh4
 
 test: 
   <<: *default
   database: chats_test
-  username: kopilka_rec
-  password: dkvs43gh4
-  host: localhost
   port: 5432
 
 production:

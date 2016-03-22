@@ -9,6 +9,7 @@ gem 'rake'
 gem 'cancancan'
 gem 'paperclip'
 gem 'rails-observers'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'rspec-rails'
